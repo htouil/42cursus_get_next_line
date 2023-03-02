@@ -71,6 +71,7 @@ char    *get_new_line(char *cell)
     i = 0;
     while (cell[i] != '\n')
         i++;
+    i++;
     new = malloc((ft_strlen(cell) - i + 1) * sizeof(char));
     if (!new)
         return(NULL);
