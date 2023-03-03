@@ -83,7 +83,7 @@ char    *get_new_line(char *cell)
         j++;
     }
     new[j] = '\0';
-    *free(cell);
+    free(cell);
     return(new);
 }
 
