@@ -21,20 +21,19 @@ char    *ft_read(int fd, char *cell)
     if (!buffer)
         return (NULL);
     rd = 1;
-    while (ft_strchr(cell) == 0 || rd > 0)
+    while (ft_strchr(cell) == 0 && rd > 0)
     {
         rd = read(fd, buffer, BUFFER_SIZE);
         if (rd == -1)
         {
             free(buffer);
             free(cell);
-            cell = NULL;
-            break ;
+            return (NULL)
         }
         buffer[rd] = '\0';
         cell = ft_strjoin(cell, buffer);
     }
-    //free (buffer);
+    free (buffer);
     return (cell);
 }
 
@@ -44,19 +43,20 @@ char    *get_one_line(char *cell)
     char    *tmp;
 
     i = 0;
-    while (cell[i] != '\n')
+    if (!cell)
+        return (NULL);
+    while (cell[i] != '\0' && cell[i] != '\n')
         i++;
     tmp = malloc((i + 2) * sizeof(char));
     if (!tmp)
         return (NULL);
     i = 0;
-    while (cell[i] != '\n')
+    while (cell[i] != '\0' && cell[i] != '\n')
     {
         tmp[i] = cell[i];
         i++;
     }
-    tmp[i] = '\n';
-    i++;
+    tmp[i++] = '\n';
     tmp[i] = '\0';
     //free(cell);
     return (tmp);
@@ -69,7 +69,12 @@ char    *get_new_line(char *cell)
     char    *new;
 
     i = 0;
-    while (cell[i] != '\n')
+    if (!cell[i])
+    {
+        free (cell);
+        return (NULL);
+    }
+    while (cell[i] != '\0' && cell[i] != '\n')
         i++;
     i++;
     new = malloc((ft_strlen(cell) - i + 1) * sizeof(char));
@@ -84,7 +89,7 @@ char    *get_new_line(char *cell)
     }
     new[j] = '\0';
     free(cell);
-    return(new);
+    return (new);
 }
 
 char    *get_next_line(int fd)
@@ -93,7 +98,7 @@ char    *get_next_line(int fd)
     char        *one_line;
     
     if (fd < 0 || BUFFER_SIZE < 1)
-        return (NULL);
+        return (0);
     cell = ft_read(fd, cell);
     if (!cell)
         return (NULL);
@@ -111,11 +116,8 @@ int main()
     printf("%s", result);
     result = get_next_line(fd);
     printf("%s", result);
-    // exit(1);
     result = get_next_line(fd);
     printf("%s", result);
-    // result = get_next_line(fd);
-    // printf("%s", result);
     close(fd);
     return (0);
 }
