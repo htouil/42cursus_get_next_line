@@ -80,10 +80,15 @@ char	*get_new_line(char *cell)
 	}
 	while (cell[i] != '\0' && cell[i] != '\n')
 		i++;
-	new = malloc((ft_strlen(cell) - i) * sizeof(char));
+	if(cell[i] == '\n')
+	{
+		new = malloc((ft_strlen(cell) - i) * sizeof(char));
+		i++;
+	}
+	else 
+		new = malloc((ft_strlen(cell) - i + 1) * sizeof(char));
 	if (!new)
 		return (NULL);
-	i++;
 	j = 0;
 	while (cell[i] != '\0')
 		new[j++] = cell[i++];
