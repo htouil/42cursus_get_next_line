@@ -80,11 +80,8 @@ char	*get_new_line(char *cell)
 	}
 	while (cell[i] != '\0' && cell[i] != '\n')
 		i++;
-	if(cell[i] == '\n')
-	{
-		new = malloc((ft_strlen(cell) - i) * sizeof(char));
-		i++;
-	}
+	if (cell[i] == '\n')
+		new = malloc((ft_strlen(cell) - i++) * sizeof(char));
 	else 
 		new = malloc((ft_strlen(cell) - i + 1) * sizeof(char));
 	if (!new)
